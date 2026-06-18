@@ -1,3 +1,5 @@
+module.exports = message => {
+console.log("Message received:", message.content);
 const Discord = require("discord.js");
 const config = require('../config.json');
 let talkedRecently = new Set();
