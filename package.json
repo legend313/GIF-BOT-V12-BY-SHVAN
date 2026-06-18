@@ -1,16 +1,16 @@
 {
-  "name": "gif-bot",
-  "version": "1.0.0",
-  "description": "Simple Discord GIF bot",
+  "name": "ultimate-gif-bot",
+  "version": "2.0.0",
+  "description": "Advanced Discord GIF & Utility Bot",
   "main": "shvan.js",
   "scripts": {
-    "start": "node shvan.js"
+    "start": "node shvan.js",
+    "dev": "node --watch shvan.js"
   },
   "dependencies": {
-    "discord.js": "^12.5.3",
-    "express": "^4.17.1"
-  },
-  "engines": {
-    "node": "12.x"
+    "discord.js": "^14.21.0",
+    "axios": "^1.11.0",
+    "dotenv": "^17.2.1",
+    "mongoose": "^8.18.0"
   }
 }
