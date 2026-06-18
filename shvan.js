@@ -1,41 +1,37 @@
-const Discord = require("discord.js");
+const { Client, Collection, GatewayIntentBits } = require("discord.js");
 const fs = require("fs");
 const config = require("./config.json");
 
-const client = new Discord.Client();
-
-client.commands = new Discord.Collection();
-client.aliases = new Discord.Collection();
-
-console.log("Bot is starting...");
-
-// Load commands
-fs.readdir("./commandgif/", (err, files) => {
-  if (err) console.error(err);
-
-  files.forEach(file => {
-    let props = require(`./commandgif/${file}`);
-
-    console.log(`Loaded command: ${props.help.name}`);
-
-    client.commands.set(props.help.name, props);
-
-    props.conf.aliases.forEach(alias => {
-      client.aliases.set(alias, props.help.name);
-    });
-  });
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent
+  ]
 });
 
-// Load events
-require("./util/eventLoader")(client);
+client.commands = new Collection();
+
+fs.readdirSync("./commandgif")
+  .filter(file => file.endsWith(".js"))
+  .forEach(file => {
+    const command = require(`./commandgif/${file}`);
+    client.commands.set(command.name, command);
+  });
 
 client.on("ready", () => {
   console.log(`${client.user.tag} is online!`);
-
-  client.user.setActivity(`${config.prefix}help`, {
-    type: "LISTENING"
-  });
 });
 
-// Login bot
+client.on("messageCreate", message => {
+  if (message.author.bot) return;
+  if (!message.content.startsWith(config.prefix)) return;
+
+  const args = message.content.slice(config.prefix.length).trim().split(/ +/);
+  const commandName = args.shift().toLowerCase();
+
+  const command = client.commands.get(commandName);
+  if (command) command.run(client, message, args);
+});
+
 client.login(config.token);
