@@ -1,43 +1,31 @@
-const Discord = require('discord.js');
-const client = new Discord.Client();
-const moment = require('moment');
-var config = require('../config.json');
+const Discord = require("discord.js");
 
-exports.run = async (client, message, args, msg) => {
+module.exports.run = async (bot, message, args) => {
 
 const embed = new Discord.MessageEmbed()
-    
-.setColor('RANDOM') 
-.setThumbnail(message.author.avatarURL({dynamic: "true"}))
-.setFooter(`${message.author.username}#${message.author.discriminator}`, message.member.user.displayAvatarURL({ dynamic: true }))
-.setAuthor(`Gif Help`)
+.setTitle("Commands")
+.setColor("BLUE")
 .setDescription(`
-**Info Commands**
-\`avatar\` - \`about\` - \`ping\`
-\`invite\` - \`server\` - \`support\`
+=girl
+=boy
+=anime
+=ping
+=help
+`);
 
-**Gifs Commands**
-\`boy\` - \`girl\` - \`baby\`
-\`neon\` - \`sad\` - \`smoking\`
-\`animal\` - \`anime\` - \`cuople\`
-\`emoji\`
+message.channel.send(embed);
 
-**Links**
-**[Invite](linke bot dane) - [Server Support](Linke servarek dane)**
-`)
-    
-message.channel.send({embed});
-}
+};
 
 exports.conf = {
-enabled: true,
-guildOnly: false,
-aliases: ['help'],
-permLevel: 0
+  enabled: true,
+  guildOnly: false,
+  aliases: ["yardim"],
+  permLevel: 0
 };
 
 exports.help = {
-  name: 'help',
-  description: 'rexuss',
-  usage: 'h'
+  name: "help",
+  description: "Shows commands",
+  usage: "=help"
 };
